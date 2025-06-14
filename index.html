@@ -73,6 +73,7 @@
             max-width: 100%;
             border: 1px solid #a2a9b1;
             background: #fff;
+            cursor: pointer;
         }
         .thumbcaption {
             font-size: 0.95em;
@@ -92,6 +93,53 @@
         .clear {
             clear: both;
         }
+
+        /* Lightbox styles */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .lightbox-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            display: block;
+            margin: 0 auto;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            background: #444;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -105,7 +153,7 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align:center;">
-                <img src="Screenshot 2025-06-14 184254.png" style="width:100%;max-width:240px;">
+                <img src="https://pplx-res.cloudinary.com/image/private/user_uploads/29650331/adb0c43d-e56b-45e2-99c5-ceb714df3a9c/image.jpg" alt="Shiftlang Discord Example" style="width:100%;max-width:240px;" class="lightbox">
                 <div class="thumbcaption">A Discord conversation using purplish as a cipher</div>
             </td>
         </tr>
@@ -158,9 +206,7 @@
             <td>B</td><td>C</td><td>O</td><td>P</td>
         </tr>
         <tr>
-            <td>C</td><td>D</td><td>P</td><td>Q</td>
-        </tr>
-        <tr>
+            <td>C</td><td>D</td><td=tr>
             <td>D</td><td>E</td><td>Q</td><td>R</td>
         </tr>
         <tr>
@@ -286,7 +332,7 @@
 
     <h2>Example</h2>
     <div class="thumb">
-        <img src="https://pplx-res.cloudinary.com/image/private/user_uploads/29650331/adb0c43d-e56b-45e2-99c5-ceb714df3a9c/image.jpg" alt="purplish Discord Example">
+        <img src="https://pplx-res.cloudinary.com/image/private/user_uploads/29650331/adb0c43d-e56b-45e2-99c5-ceb714df3a9c/image.jpg" alt="purplish Discord Example" class="lightbox">
         <div class="thumbcaption">A Discord chat using my to encode messages. Each letter is shifted forward once in the alphabet.</div>
     </div>
     <h3>Text Example</h3>
@@ -312,14 +358,53 @@
     <p>
         purplish is not used for formal communication but is popular among hobbyists, in online chats, and as an educational tool in cryptography. Its simplicity makes it accessible for beginners interested in learning about ciphers and constructed languages.
     </p>
+    <p>
+        For a comprehensive and technical guide to the spoken system, see
+        <a href="speak.html"><strong>purplish: Spoken System Reference</strong></a>.
+    </p>
 
     <h2>See also</h2>
     <ul>
         <li><a href="https://en.wikipedia.org/wiki/Caesar_cipher">Caesar cipher</a></li>
         <li><a href="https://en.wikipedia.org/wiki/Constructed_language">Constructed language</a></li>
         <li><a href="https://en.wikipedia.org/wiki/Substitution_cipher">Substitution cipher</a></li>
-		    <li><a href="speak.html">How to speak purplish</a></li>
+        <li><a href="speak.html"><strong>In-depth: How to Speak purplish</strong></a></li>
     </ul>
 </div>
+
+<!-- Lightbox overlay (hidden by default) -->
+<div class="lightbox-overlay" id="lightbox">
+    <div class="lightbox-content">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+</div>
+
+<script>
+    // Get all images with class="lightbox"
+    const images = document.querySelectorAll('.lightbox');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    // When an image is clicked, show it in the lightbox
+    images.forEach(img => {
+        img.addEventListener('click', function() {
+            lightboxImg.src = this.src;
+            lightboxImg.alt = this.alt;
+            lightbox.classList.add('show');
+        });
+    });
+
+    // Close the lightbox when the X or overlay is clicked
+    lightboxClose.addEventListener('click', function() {
+        lightbox.classList.remove('show');
+    });
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) {
+            lightbox.classList.remove('show');
+        }
+    });
+</script>
 </body>
 </html>
